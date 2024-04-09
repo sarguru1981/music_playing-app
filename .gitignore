@@ -25,3 +25,17 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Flutter specific
+**/android/.gradle
+**/android/build
+**/ios/Pods
+**/ios/.symlinks
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_*.h
+**/ios/Flutter/flutter_framework.gradle
+**/ios/Flutter/flutter_plugins.gradle
+**/ios/Flutter/flutter_version.gradle
+**/ios/Flutter/flutter_assets
+
