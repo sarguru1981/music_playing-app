@@ -38,4 +38,32 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static TextStyle homeWelcomeTextStyle = baseTextStyle.copyWith(
+    fontFamily: poppinsRegular,
+    fontSize: Dimensions.dimen15,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle searchTextStyle = baseTextStyle.copyWith(
+    fontFamily: poppinsMedium,
+    fontSize: Dimensions.dimen15,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle songTitleTextStyle = baseTextStyle.copyWith(
+    fontFamily: poppinsBold,
+    fontSize: Dimensions.dimen15,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle songDescTextStyle = baseTextStyle.copyWith(
+    fontFamily: poppinsLight,
+    fontSize: Dimensions.dimen12,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
 }

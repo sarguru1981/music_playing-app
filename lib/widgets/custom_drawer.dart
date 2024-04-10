@@ -14,7 +14,7 @@ class CustomDrawer extends StatelessWidget {
             child: Center(
               child: Icon(
                 Icons.music_note,
-                size: 40,
+                size: Dimensions.dimen40,
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),
