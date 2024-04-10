@@ -31,4 +31,11 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static TextStyle settingsTextStyle = baseTextStyle.copyWith(
+    fontFamily: poppinsBold,
+    fontSize: Dimensions.dimen12,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
 }

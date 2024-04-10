@@ -25,9 +25,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.dispose();
   }
 
+  bool isDarkMode(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark;
+  }
+
   @override
   Widget build(BuildContext context) {
+    Color textColor = isDarkMode(context) ? Colors.white : Colors.black;
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -108,9 +114,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               padding: const EdgeInsets.only(bottom: Dimensions.dimen30),
               child: RichText(
                 text: TextSpan(children: [
-                  const TextSpan(
+                  TextSpan(
                     text: "Already a member ? ",
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(
+                      color: textColor,
+                    ),
                   ),
                   TextSpan(
                     text: "Login",
@@ -126,17 +134,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Widget _textInput({controller, hint, icon, required bool isPassword}) {
+    Color textFieldColor = isDarkMode(context) ? Colors.black : Colors.white;
     return Container(
       margin: const EdgeInsets.only(top: Dimensions.dimen10),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(Dimensions.dimen20)),
-        color: Colors.white,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(Dimensions.dimen20)),
+        color: textFieldColor,
       ),
       padding: const EdgeInsets.only(left: Dimensions.dimen10),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          border: const OutlineInputBorder(),
+          border: InputBorder.none,
           hintText: hint,
           prefixIcon: Icon(icon),
         ),
@@ -144,4 +153,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
 }

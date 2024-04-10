@@ -2,24 +2,30 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_app/util/color.dart';
+import 'package:music_app/themes/ThemeProvider.dart';
 import 'features/presentation/auth_feature/auth_flow.dart';
 import 'features/presentation/auth_feature/bloc/authentication_bloc.dart';
 import 'features/presentation/auth_feature/login_screen.dart';
 import 'features/presentation/home/home_screen.dart';
+import 'features/presentation/settings/settings_screen.dart';
 import 'features/presentation/splash/splash_screen.dart';
 import 'firebase_options.dart';
-
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-      BlocProvider(
-          create: (context) => AuthenticationBloc(),
-          child: const MyApp()));
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
+      child: BlocProvider(
+        create: (context) => AuthenticationBloc(),
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -29,20 +35,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'A Music App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-
-          colorScheme: ColorScheme.fromSeed(seedColor: orangeColors),
-          useMaterial3: true,
-        ),
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/authentication': (context) => const AuthenticationFlowScreen(),
-          '/login': (context) => LoginScreen(),
-          '/home': (context) => const HomeScreen(),
-        },
-        //home: const AuthenticationFlowScreen()
+      title: 'A Music App',
+      debugShowCheckedModeBanner: false,
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/authentication': (context) => const AuthenticationFlowScreen(),
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/settings': (context) => const SettingsScreen(),
+      },
+      //home: const AuthenticationFlowScreen()
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:music_app/features/presentation/auth_feature/bloc/authentication_bloc.dart';
 
+import 'package:music_app/widgets/custom_drawer.dart';
+
 
 class HomeScreen extends StatelessWidget {
   static String id = 'home_screen';
@@ -11,6 +13,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Music App'),),
+      drawer: CustomDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
