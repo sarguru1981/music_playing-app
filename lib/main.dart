@@ -6,6 +6,7 @@ import 'package:music_app/themes/ThemeProvider.dart';
 import 'features/presentation/auth_feature/auth_flow.dart';
 import 'features/presentation/auth_feature/bloc/authentication_bloc.dart';
 import 'features/presentation/auth_feature/login_screen.dart';
+import 'features/presentation/details/playlist_detail_screen.dart';
 import 'features/presentation/home/home_screen.dart';
 import 'features/presentation/settings/settings_screen.dart';
 import 'features/presentation/splash/splash_screen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/home': (context) => const HomeScreen(),
         '/settings': (context) => const SettingsScreen(),
-        '/playlist': (context) => const SettingsScreen(),
+        '/playlist': (context) => const PlaylistDetailScreen(),
       },
       //home: const AuthenticationFlowScreen()
     );
