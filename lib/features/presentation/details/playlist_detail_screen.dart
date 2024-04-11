@@ -18,12 +18,13 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   late final Song song;
   final AudioPlayer audioPlayer = AudioPlayer();
+  late bool isFavorite;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     song = ModalRoute.of(context)!.settings.arguments as Song;
-
+    isFavorite = song.isFavorite;
     audioPlayer.setAudioSource(
       ConcatenatingAudioSource(
         children: [
@@ -55,27 +56,47 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.orange),
-      ),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            song.coverUrl,
-            fit: BoxFit.cover,
-          ),
-          const _BackgroundFilter(),
-          _MusicPlayer(
-            song: song,
-            seekBarDataStream: _seekBarDataStream,
-            audioPlayer: audioPlayer,
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, isFavorite);
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.orange),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isFavorite = !isFavorite;
+                  song.isFavorite = isFavorite;
+                });
+              },
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_outline,
+                color: isFavorite ? Colors.red : Colors.orange,
+              ),
+            ),
+          ],
+        ),
+        extendBodyBehindAppBar: true,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              song.coverUrl,
+              fit: BoxFit.cover,
+            ),
+            const _BackgroundFilter(),
+            _MusicPlayer(
+              song: song,
+              seekBarDataStream: _seekBarDataStream,
+              audioPlayer: audioPlayer,
+            ),
+          ],
+        ),
       ),
     );
   }

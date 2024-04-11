@@ -3,12 +3,14 @@ class Song {
   final String description;
   final String url;
   final String coverUrl;
+  bool isFavorite;
 
   Song({
     required this.title,
     required this.description,
     required this.url,
     required this.coverUrl,
+    this.isFavorite = false,
   });
 
   static List<Song> songs = [

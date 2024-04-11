@@ -8,6 +8,7 @@ import 'features/presentation/auth_feature/bloc/authentication_bloc.dart';
 import 'features/presentation/auth_feature/login_screen.dart';
 import 'features/presentation/details/playlist_detail_screen.dart';
 import 'features/presentation/home/home_screen.dart';
+import 'features/presentation/home/provider/favorite_notifier.dart';
 import 'features/presentation/settings/settings_screen.dart';
 import 'features/presentation/splash/splash_screen.dart';
 import 'firebase_options.dart';
@@ -20,6 +21,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteState()),
       ],
       child: BlocProvider(
         create: (context) => AuthenticationBloc(),
