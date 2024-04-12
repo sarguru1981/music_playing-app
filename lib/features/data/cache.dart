@@ -1,15 +1,34 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class CacheClient {
-  CacheClient() : _cache = <String, Object>{};
-
-  final Map<String, Object> _cache;
-
-  void write<T extends Object>({required String key, required T value}) {
-    _cache[key] = value;
+  Future<bool> delete(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    var result = await prefs.remove(key);
+    return result;
   }
 
-  T? read<T extends Object>({required String key}) {
-    final value = _cache[key];
-    if (value is T) return value;
-    return null;
+  Future<bool> deleteAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    var result = await prefs.clear();
+    return result;
+  }
+
+  Future<dynamic> get(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    final value = prefs.get(key);
+    return value;
+  }
+
+  Future<bool> set(String key, dynamic value) async {
+    if (value is String?) {
+      if (value == null) {
+        return false;
+      }
+      final prefs = await SharedPreferences.getInstance();
+      final result = await prefs.setString(key, value);
+      return result;
+    } else {
+      throw Exception(['Value isn\'t of type String?']);
+    }
   }
 }

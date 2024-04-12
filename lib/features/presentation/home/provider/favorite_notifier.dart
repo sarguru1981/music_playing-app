@@ -1,22 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:music_app/features/model/song_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:music_app/features/data/user_wishlist_repository.dart';
 
-class FavoriteState extends ChangeNotifier {
-  List<Song> _favoriteSongs = [];
+class UserWishListProvider extends ChangeNotifier {
+  final UserWishListRepository _userWishListRepository;
 
-  List<Song> get favoriteSongs => _favoriteSongs;
+  UserWishListProvider({UserWishListRepository? repository})
+      : _userWishListRepository = repository ?? UserWishListRepository();
 
-  void addFavoriteSong(Song song) {
-    _favoriteSongs.add(song);
+  List<int> _userWishList = [];
+
+  List<int> get userWishList => _userWishList;
+
+  set userWishList(List<int> value) {
+    _userWishList = value;
     notifyListeners();
   }
 
-  void removeFavoriteSong(Song song) {
-    _favoriteSongs.remove(song);
-    notifyListeners();
+  Future<void> addToWishList(String userId, int songId) async {
+    try {
+      await fetchWishList(userId);
+
+      if (_userWishList.contains(songId)) {
+        _userWishList.remove(songId);
+      } else {
+        _userWishList.add(songId);
+      }
+
+      await _userWishListRepository.write(userId: userId, data: _userWishList);
+
+      notifyListeners();
+    } catch (e) {
+      print('Error adding/removing song to/from wish list: $e');
+    }
   }
 
-  bool isSongFavorite(Song song) {
-    return _favoriteSongs.contains(song);
+  Future<void> fetchWishList(String userId) async {
+    try {
+      _userWishList = await _userWishListRepository.read(userId: userId);
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching wish list: $e');
+    }
   }
 }

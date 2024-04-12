@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:music_app/themes/ThemeProvider.dart';
 import 'features/presentation/auth_feature/auth_flow.dart';
 import 'features/presentation/auth_feature/bloc/authentication_bloc.dart';
@@ -12,16 +13,16 @@ import 'features/presentation/home/provider/favorite_notifier.dart';
 import 'features/presentation/settings/settings_screen.dart';
 import 'features/presentation/splash/splash_screen.dart';
 import 'firebase_options.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => FavoriteState()),
+        ChangeNotifierProvider(create: (context) => UserWishListProvider()),
       ],
       child: BlocProvider(
         create: (context) => AuthenticationBloc(),
@@ -32,9 +33,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreen(),
         '/playlist': (context) => const PlaylistDetailScreen(),
       },
-      //home: const AuthenticationFlowScreen()
     );
   }
 }

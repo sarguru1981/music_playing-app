@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/features/data/authentication_repository.dart';
+import 'package:music_app/features/model/song_model.dart';
+import 'package:music_app/features/presentation/home/provider/favorite_notifier.dart';
 import 'package:music_app/themes/app_style.dart';
 import 'package:music_app/util/dimen.dart';
-import 'package:music_app/features/model/song_model.dart';
 
 class PlaylistCard extends StatefulWidget {
   const PlaylistCard({
@@ -16,17 +18,45 @@ class PlaylistCard extends StatefulWidget {
 }
 
 class _PlaylistCardState extends State<PlaylistCard> {
+  late UserWishListProvider userWishListProvider;
+  late AuthenticationRepository authRepository;
+  late Future<void> initialization;
+  late String userId;
+
+  @override
+  void initState() {
+    super.initState();
+    initialization = _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    userWishListProvider = UserWishListProvider();
+    authRepository = AuthenticationRepository();
+    userId = (await authRepository.currentUserId)!;
+    await userWishListProvider.fetchWishList(userId);
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox();
+        } else {
+          return _buildContent();
+        }
+      },
+    );
+  }
+
+  Widget _buildContent() {
     return InkWell(
       onTap: () async {
-        final dynamic updatedFavoriteStatus = await Navigator.pushNamed(context, '/playlist', arguments: widget.song);
-
-        if (updatedFavoriteStatus != null && updatedFavoriteStatus is bool) {
-          setState(() {
-            widget.song.isFavorite = updatedFavoriteStatus;
-          });
-        }
+        final updatedUserWishList = await Navigator.pushNamed(context, '/playlist', arguments: widget.song);
+        setState(() {
+          userWishListProvider.userWishList = updatedUserWishList as List<int>;
+        });
       },
       child: Container(
         height: Dimensions.dimen75,
@@ -75,15 +105,20 @@ class _PlaylistCardState extends State<PlaylistCard> {
               ),
             ),
             IconButton(
-              onPressed: () {
-                // Toggling the favorite status
-                setState(() {
-                  widget.song.isFavorite = !widget.song.isFavorite;
-                });
+              onPressed: () async{
+                final songId = widget.song.id;
+                await userWishListProvider.addToWishList(userId, songId);
+                if (mounted) {
+                  setState(() {});
+                }
               },
               icon: Icon(
-                widget.song.isFavorite ? Icons.favorite : Icons.favorite_outline,
-                color: widget.song.isFavorite ? Colors.red : Colors.white,
+                userWishListProvider.userWishList.contains(widget.song.id)
+                    ? Icons.favorite
+                    : Icons.favorite_outline,
+                color: userWishListProvider.userWishList.contains(widget.song.id)
+                    ? Colors.red
+                    : Colors.white,
               ),
             ),
           ],

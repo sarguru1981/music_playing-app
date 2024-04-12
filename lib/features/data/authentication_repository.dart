@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -95,29 +95,48 @@ class AuthenticationRepository {
   Stream<UserModel> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser == null ? UserModel.empty : firebaseUser.toUser;
-      _cache.write(key: userCacheKey, value: user);
+      _cache.set(userCacheKey, user);
       return user;
     });
   }
 
-  Object get currentUser {
-    return _cache.read<User>(key: userCacheKey) ?? UserModel.empty;
+  Future<UserModel> get currentUser async {
+    final dynamic result = await _cache.get(userCacheKey);
+    if (result != null) {
+      final userModel = UserModel.fromJson(jsonDecode(result));
+      return userModel;
+    } else {
+      throw Exception('Failed to retrieve current user');
+    }
   }
+
+  Future<String?> get currentUserId async {
+    final dynamic result = await _cache.get(userCacheKey);
+    if (result != null) {
+      final userModel = UserModel.fromJson(jsonDecode(result));
+      return userModel.id;
+    } else {
+      throw Exception('Failed to retrieve current user');
+    }
+  }
+
 
   Future<UserModel?> signUp({required String email, required String password}) async {
     try {
-      final UserCredential userCredential =
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       final User? firebaseUser = userCredential.user;
       if (firebaseUser != null) {
-        return UserModel(
+        final userModel = UserModel(
           id: firebaseUser.uid,
           email: firebaseUser.email,
           displayName: firebaseUser.displayName,
         );
+        final userModelJson = jsonEncode(userModel.toJson());
+        _cache.set(userCacheKey, userModelJson);
+        return userModel;
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);

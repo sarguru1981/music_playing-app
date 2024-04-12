@@ -8,6 +8,9 @@ import 'package:rxdart/rxdart.dart' as rxdart;
 
 import 'package:music_app/features/model/song_model.dart';
 
+import 'package:music_app/features/data/authentication_repository.dart';
+import 'package:music_app/features/presentation/home/provider/favorite_notifier.dart';
+
 class PlaylistDetailScreen extends StatefulWidget {
   const PlaylistDetailScreen({Key? key}) : super(key: key);
 
@@ -18,13 +21,29 @@ class PlaylistDetailScreen extends StatefulWidget {
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   late final Song song;
   final AudioPlayer audioPlayer = AudioPlayer();
-  late bool isFavorite;
+
+  late UserWishListProvider userWishListProvider;
+  late AuthenticationRepository authRepository;
+  late Future<void> initialization;
+  late String userId;
+
+  @override
+  void initState() {
+    super.initState();
+    initialization = _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    userWishListProvider = UserWishListProvider();
+    authRepository = AuthenticationRepository();
+    userId = (await authRepository.currentUserId)!;
+    await userWishListProvider.fetchWishList(userId);
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     song = ModalRoute.of(context)!.settings.arguments as Song;
-    isFavorite = song.isFavorite;
     audioPlayer.setAudioSource(
       ConcatenatingAudioSource(
         children: [
@@ -56,9 +75,22 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox();
+        } else {
+          return _buildContent();
+        }
+      },
+    );
+  }
+
+  Widget _buildContent() {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, isFavorite);
+        Navigator.pop(context, userWishListProvider.userWishList);
         return true;
       },
       child: Scaffold(
@@ -68,15 +100,20 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           iconTheme: const IconThemeData(color: Colors.orange),
           actions: [
             IconButton(
-              onPressed: () {
-                setState(() {
-                  isFavorite = !isFavorite;
-                  song.isFavorite = isFavorite;
-                });
+              onPressed: () async{
+                final songId = song.id;
+                await userWishListProvider.addToWishList(userId, songId);
+                if (mounted) {
+                  setState(() {});
+                }
               },
               icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_outline,
-                color: isFavorite ? Colors.red : Colors.orange,
+                userWishListProvider.userWishList.contains(song.id)
+                    ? Icons.favorite
+                    : Icons.favorite_outline,
+                color: userWishListProvider.userWishList.contains(song.id)
+                    ? Colors.red
+                    : Colors.orange,
               ),
             ),
           ],
