@@ -78,6 +78,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/songs/
+    - assets/screenshots/
 
   fonts:
     - family: Poppins-bold
