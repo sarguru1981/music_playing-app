@@ -100,7 +100,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           iconTheme: const IconThemeData(color: Colors.orange),
           actions: [
             IconButton(
-              onPressed: () async{
+              onPressed: () async {
                 final songId = song.id;
                 await userWishListProvider.addToWishList(userId, songId);
                 if (mounted) {
@@ -122,9 +122,12 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
-              song.coverUrl,
-              fit: BoxFit.cover,
+            Hero(
+              tag: 'playlist_image_${song.id}',
+              child: Image.asset(
+                song.coverUrl,
+                fit: BoxFit.cover,
+              ),
             ),
             const _BackgroundFilter(),
             _MusicPlayer(

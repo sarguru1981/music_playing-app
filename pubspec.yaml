@@ -46,6 +46,9 @@ dependencies:
   rxdart: ^0.27.7
   firebase_database: ^10.5.1
   shared_preferences: ^2.2.3
+  mockito: ^5.4.4
+  mocktail: ^1.0.3
+  bloc_test: ^9.1.7
 
 dev_dependencies:
   flutter_test:
