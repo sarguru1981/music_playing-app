@@ -11,9 +11,16 @@ A music streaming app that allows users to browse a collection of songs, play th
 3. Home Page
 4. Details Page
 
-### 2. Splash Page
+### 1. Splash Page
 
-<img src="assets/screenshots/splash.png" alt="Splash" width="200" height="300">
+The Splash page displays for 2 seconds and automatically move to registration page if user is not registered. Else move to the home page.
+
+<div style="display:flex; justify-content:center;">
+  <div style="text-align:center; margin-right:20px;">
+    <img src="assets/screenshots/splash.png" alt="Screenshot 1" width="170" height="300">
+    <p>Splash screen</p>
+  </div>
+</div>
 
 ### 2. Login Page
 
