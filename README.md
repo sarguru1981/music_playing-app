@@ -13,7 +13,7 @@ A music streaming app that allows users to browse a collection of songs, play th
 
 ### 2. Splash Page
 
-![Splash Screen](screenshots/splash.png)
+![Splash Screen](assets/screenshots/splash.png)
 
 ### 2. Login Page
 
