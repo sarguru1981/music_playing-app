@@ -17,7 +17,7 @@ The Splash page displays for 2 seconds and automatically move to registration pa
 
 <div style="display:flex; justify-content:center;">
   <div style="text-align:center; margin-right:20px;">
-    <img src="assets/screenshots/splash.png" alt="Screenshot 1" width="170" height="300">
+    <img src="assets/screenshots/splash.png" alt="Splash" width="170" height="300">
     <p>Splash screen</p>
   </div>
 </div>
@@ -25,6 +25,17 @@ The Splash page displays for 2 seconds and automatically move to registration pa
 ### 2. Login Page
 
 The login page allows users to sign up or log in using their email and password. Firebase Authentication is used for secure user authentication, enabling simultaneous login from multiple devices.
+
+<div style="display:flex; justify-content:center;">
+  <div style="text-align:center; margin-right:20px;">
+    <img src="assets/screenshots/signup.png" alt="Signup" width="170" height="300">
+    <p>Signup Page</p>
+  </div>
+  <div style="text-align:center;">
+    <img src="assets/screenshots/login.png" alt="Login" width="170" height="300">
+    <p>Login page</p>
+  </div>
+</div>
 
 ### 3. Home Page
 
