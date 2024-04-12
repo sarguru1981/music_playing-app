@@ -29,7 +29,7 @@ The login page allows users to sign up or log in using their email and password.
 |                                   Signup Page                                   |                                  Login Page                                   |
 
 
-| <img src="assets/screenshots/registering.png" alt="registering" width="170" height="300"> | <img src="assets/screenshots/firebase_authentication.png" alt="Auth" width="170" height="300"> |
+| <img src="assets/screenshots/registering.png" alt="registering" width="170" height="300"> | <img src="assets/screenshots/firebase_authentication.png" alt="Auth" width="700" height="100"> |
 |:-----------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|
 |                                        Registering                                        |                                    Firebase Authentication                                     |
 
@@ -61,7 +61,7 @@ The app ensures that favorited songs remain consistent across multiple devices w
 |                                     Favorite in Home Page                                     |                                      Favorite in Detail Page                                      |
 
 
-| <img src="assets/screenshots/firebase_realtime_db_favoritelist.png" alt="db" width="170" height="300"> |
+| <img src="assets/screenshots/firebase_realtime_db_favoritelist.png" alt="db" width="700" height="100"> |
 |:------------------------------------------------------------------------------------------------------:|
 |                                   Firebase Realtime DB Favorite List                                   |
 
