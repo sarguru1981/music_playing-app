@@ -26,7 +26,7 @@ The Splash page displays for 2 seconds and automatically move to registration pa
 
 The login page allows users to sign up or log in using their email and password. Firebase Authentication is used for secure user authentication, enabling simultaneous login from multiple devices.
 
-<div style="display:flex; justify-content:center;">
+<div style="display:flex; align-items:center; justify-content:center;">
   <div style="text-align:center; margin-right:20px;">
     <img src="assets/screenshots/signup.png" alt="Signup" width="170" height="300">
     <p>Signup Page</p>
