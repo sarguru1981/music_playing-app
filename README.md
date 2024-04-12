@@ -72,9 +72,9 @@ The app ensures that favorited songs remain consistent across multiple devices w
 3. Code follows SOLID design principles and adheres to clean code guidelines, emphasizing readability and maintainability. Both BLoC and Provider patterns are utilized for state management.
 
 
-| <img src="assets/screenshots/drawer_setting.png" alt="drawer" width="170" height="300"> |
-|:---------------------------------------------------------------------------------------:|
-|                                        Settings                                         |
+| <img src="assets/screenshots/drawer_settings.png" alt="drawer" width="170" height="300"> |
+|:----------------------------------------------------------------------------------------:|
+|                                         Settings                                         |
 
 
 | <img src="assets/screenshots/settings_lightmode.png" alt="light mode" width="170" height="300"> | <img src="assets/screenshots/settings_darkmode.png" alt="dark mode" width="170" height="300"> |
